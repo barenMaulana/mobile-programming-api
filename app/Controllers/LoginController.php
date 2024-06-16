@@ -44,6 +44,5 @@ class LoginController extends RestfulController
         $str .= $karakkter [rand(0, $panjang_karakter - 1)];
         }
         return $str;
-
     }
 }
