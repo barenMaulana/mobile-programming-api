@@ -15,3 +15,10 @@ $routes->group('produk', function ($routes){
     $routes->put('(:segment)','ProdukController::ubah/$1');
     $routes->delete ('(:segment)', 'ProdukController::hapus/$1');
 });
+
+$routes->get('/dashboard', 'DashboardController::index');
+$routes->get('/dashboard/create', 'DashboardController::create');
+$routes->post('/dashboard/store', 'DashboardController::store');
+$routes->get('/dashboard/edit/(:num)', 'DashboardController::edit/$1');
+$routes->post('/dashboard/update/(:num)', 'DashboardController::update/$1');
+$routes->get('/dashboard/delete/(:num)', 'DashboardController::delete/$1');

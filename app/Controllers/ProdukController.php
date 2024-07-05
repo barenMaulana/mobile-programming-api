@@ -4,49 +4,68 @@ use App\Models\MProduk;
 
 class ProdukController extends RestfulController
 {
-    public function create ()
+    public function create()
     {
         $data = [
             "kode_produk" => $this->request->getVar("kode_produk"),
             "nama_produk" => $this->request->getVar("nama_produk"),
             "harga" => $this->request->getVar("harga")
         ];
+
+        // Handle image upload
+        $image = $this->request->getFile('image');
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $newName = $image->getRandomName();
+            $image->move(WRITEPATH . 'uploads', $newName);
+            $data['image'] = $newName;
+        }
+
         $model = new MProduk();
-        $model->insert ($data);
-        $produk = $model->find ($model->getInsertID () ); return $this->responseHasil (200, true, $produk);
+        $model->insert($data);
+        $produk = $model->find($model->getInsertID());
+        return $this->responseHasil(200, true, $produk);
     }
 
-    public function list ()
+    public function list()
     {
-        $model = new MProduk () ;
-        $produk = $model->findAll ();
-        return $this->responseHasil (200, true, $produk);
+        $model = new MProduk();
+        $produk = $model->findAll();
+        return $this->responseHasil(200, true, $produk);
     }
 
     public function detail($id)
     {
-        $model = new MProduk () ;
+        $model = new MProduk();
         $produk = $model->find($id);
-        return $this->responseHasil (200, true, $produk);
+        return $this->responseHasil(200, true, $produk);
     }
 
-    public function ubah ($id)
+    public function ubah($id)
     {
         $data = [
             "kode_produk" => $this->request->getVar("kode_produk"),
-            "nama_produk" => $this->request ->getVar ("nama_produk"),
+            "nama_produk" => $this->request->getVar("nama_produk"),
             "harga" => $this->request->getVar("harga")
-         ];
-        $model = new MProduk() ;
+        ];
+
+        // Handle image upload
+        $image = $this->request->getFile('image');
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $newName = $image->getRandomName();
+            $image->move(WRITEPATH . 'uploads', $newName);
+            $data['image'] = $newName;
+        }
+
+        $model = new MProduk();
         $model->update($id, $data);
         $produk = $model->find($id);
-        return $this->responseHasil (200, true, $produk);
+        return $this->responseHasil(200, true, $produk);
     }
 
-
-    public function hapus($id){
-        $model = new MProduk () ;
-        $produk = $model->delete($id) ;
+    public function hapus($id)
+    {
+        $model = new MProduk();
+        $produk = $model->delete($id);
         return $this->responseHasil(200, true, $produk);
     }
 }

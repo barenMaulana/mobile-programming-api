@@ -41,6 +41,9 @@ Options -Indexes
 	Header always add Access-Control-Allow-Origin "*"
 	Header always add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
 	Header always add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
+
+	# Allow access to the uploads directory
+    RewriteRule ^uploads/(.*)$ writable/uploads/$1 [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
